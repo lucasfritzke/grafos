@@ -1,3 +1,4 @@
+package grafo;
 import java.util.Comparator;
 
 public class VerticeDijkstraComparator implements Comparator<Vertice>{

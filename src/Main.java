@@ -1,3 +1,6 @@
+import grafo.Grafo;
+import grafo.Vertice;
+
 public class Main {
     
 public static void main(String[] args) {

@@ -1,3 +1,5 @@
+package grafo;
+
 public class Aresta implements Comparable<Aresta> {
 
     private int custo;
