@@ -6,6 +6,9 @@ public class Vertice implements Comparable<Vertice>{
     private String id;
     private ArrayList<Aresta> listaArestas = new ArrayList<>();
     private char flag = ' ';
+    // atributos para Dijkstra
+    private int d;
+    private String pi;
 
     public Vertice(String id) {
         this.id = id;
@@ -17,7 +20,7 @@ public class Vertice implements Comparable<Vertice>{
         a.setVerticeAdj(v);
         a.setCusto(custo);
         listaArestas.add(a);
-        //listaArestas.sort(null);
+        listaArestas.sort(null);
 
     }
 
@@ -57,7 +60,24 @@ public class Vertice implements Comparable<Vertice>{
     public ArrayList<Aresta> getListaArestas(){
 
         return this.listaArestas;
+    }
+
+    public int getD() {
+        return d;
+    }
+
+    public void setD(int d) {
+        this.d = d;
+    }
+
+    public String getPi() {
+        return pi;
+    }
+
+    public void setPi(String pi) {
+        this.pi = pi;
     }    
+    
     
 
 }

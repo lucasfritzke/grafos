@@ -7,17 +7,19 @@ public static void main(String[] args) {
     Vertice b = new Vertice("B");
     Vertice c = new Vertice("C");
     Vertice d = new Vertice("D");
-    g.addVertice(a);
     g.addVertice(b);
-    g.addVertice(c);
+    g.addVertice(a);
     g.addVertice(d);
-
-    g.addAresta("A", "B", 14);
-    g.addAresta("A", "C", 2);
+    g.addVertice(c);
     g.addAresta("C", "D", 3);
     g.addAresta("A", "D", 7);
-
-    System.out.println(g.getVetorRotasDijkstra());
+    g.addAresta("A", "B", 14);
+    g.addAresta("A", "C", 2);
+    g.addAresta("D", "B", 1);
+    
+    
+    System.out.println(g.getListaAdj());
+    System.out.println(g.getVetorRotasDijkstra("A"));
     
 }
 
