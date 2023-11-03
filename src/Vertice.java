@@ -17,7 +17,7 @@ public class Vertice implements Comparable<Vertice>{
         a.setVerticeAdj(v);
         a.setCusto(custo);
         listaArestas.add(a);
-        listaArestas.sort(null);
+        //listaArestas.sort(null);
 
     }
 
@@ -54,6 +54,10 @@ public class Vertice implements Comparable<Vertice>{
         this.flag = flag;
     }
     
+    public ArrayList<Aresta> getListaArestas(){
+
+        return this.listaArestas;
+    }    
     
 
 }

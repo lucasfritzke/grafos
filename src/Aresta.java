@@ -30,7 +30,9 @@ public class Aresta implements Comparable<Aresta> {
     @Override
     public int compareTo(Aresta o) {
         // TODO Auto-generated method stub
+        
         return this.verticeAdj.getId().compareTo(o.getVerticeAdj().getId());
+
     }
     
 

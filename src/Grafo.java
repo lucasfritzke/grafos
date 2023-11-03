@@ -51,5 +51,46 @@ public class Grafo {
         }
         return null;
     }
+
+    public String getVetorRotasDijkstra() {
+        String[][] vetor = this.dijkstra();
+        StringBuilder str = new StringBuilder();
+        int size = vetor.length;
+    
+        // Cabeçalhos
+        str.append(String.format("%-8s", "VERTICE"));
+        for (int i = 0; i < size; i++) {
+            str.append(String.format("%-8s", vetor[i][0]));
+        }
+        str.append("\n");
+    
+        str.append(String.format("%-8s", "d"));
+        for (int i = 0; i < size; i++) {
+            str.append(String.format("%-8s", vetor[i][1]));
+        }
+        str.append("\n");
+    
+        str.append(String.format("%-8s", "Pi"));
+        for (int i = 0; i < size; i++) {
+            str.append(String.format("%-8s", vetor[i][2]));
+        }
+    
+        return str.toString();
+    }
+
+    private String[][] dijkstra(){
+
+        String[][] vetorRot = new String[listaAdj.size()][3];
+        for(int i=0;i < listaAdj.size(); i++ ){
+            Vertice v =listaAdj.get(i);
+            vetorRot[i][0] = v.getId();
+            vetorRot[i][1] = "i";
+            vetorRot[i][2] = "nill";
+            v.setFlag('b'); // b significa que não foi processado
+        }
+
+        return vetorRot;
+
+    }
     
 }
