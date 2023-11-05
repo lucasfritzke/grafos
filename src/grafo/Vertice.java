@@ -1,6 +1,6 @@
 package grafo;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Vertice implements Comparable<Vertice>{
 
@@ -14,7 +14,6 @@ public class Vertice implements Comparable<Vertice>{
     public Vertice(String id) {
         this.id = id;
     }
-    
     public void addAresta(int custo, Vertice v){
 
         Aresta a = new Aresta();
@@ -24,13 +23,11 @@ public class Vertice implements Comparable<Vertice>{
         listaArestas.sort(null);
 
     }
-
     @Override
     public int compareTo(Vertice o) {
         
         return this.id.compareTo(o.id);
     }
-
     public String getListaAdj(){
         String str=""+ this.getId() + " ->";
 
@@ -41,44 +38,34 @@ public class Vertice implements Comparable<Vertice>{
         return str;
 
     }
-
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public char getFlag() {
         return flag;
     }
-
     public void setFlag(char flag) {
         this.flag = flag;
-    }
-    
+    } 
     public ArrayList<Aresta> getListaArestas(){
 
         return this.listaArestas;
     }
-
     public int getD() {
         return d;
     }
-
     public void setD(int d) {
         this.d = d;
     }
-
     public String getPi() {
         return pi;
     }
-
     public void setPi(String pi) {
         this.pi = pi;
     }
-
     public void zerarFlags() {
 
         this.setFlag(' ');
@@ -87,6 +74,4 @@ public class Vertice implements Comparable<Vertice>{
         }
     }    
     
-    
-
 }

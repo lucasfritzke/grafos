@@ -8,14 +8,10 @@ public class Aresta implements Comparable<Aresta> {
 
     public Aresta() {
     }
-
-
     public Aresta(int custo, Vertice verticeAdj) {
         this.custo = custo;
         this.verticeAdj = verticeAdj;
     }
-
-
     public int getCusto() {
         return custo;
     }
@@ -28,29 +24,16 @@ public class Aresta implements Comparable<Aresta> {
     public void setVerticeAdj(Vertice verticeAdj) {
         this.verticeAdj = verticeAdj;
     }
-
-
     @Override
     public int compareTo(Aresta o) {
         // TODO Auto-generated method stub
-        
         return this.verticeAdj.getId().compareTo(o.getVerticeAdj().getId());
 
     }
-
-
     public char getFlag() {
         return flag;
     }
-
-
     public void setFlag(char flag) {
         this.flag = flag;
     }
-    
-
-    
-
-    
-    
 }

@@ -35,14 +35,14 @@ public class Dijkstra {
         return null;
     }
 
-    private String[][] dijkstra(String id) {
+    public String[][] dijkstra(String id) {
         Vertice v = this.getVertice(id);
         if (v != null) {
             this.initializaSingleSource(id);
         } else {
             return null;
         }
-
+        
         ArrayList<Vertice> s = new ArrayList<>();
         PriorityQueue<Vertice> q = new PriorityQueue<>(new VerticeDijkstraComparator());
         for (Vertice vertice : listaAdj) {
@@ -94,11 +94,9 @@ public class Dijkstra {
         }
     }
 
-    public String vetorRoteamentoToString(String id){
+    public String[][] vetorRoteamento(String id){
         this.dijkstra(id);
-        StringBuilder str = new StringBuilder();
-        int size = listaAdj.size();
-        String[][] st = new String[listaAdj.size()][5];
+        String[][] st = new String[listaAdj.size()][6];
 
         for (int i = 0; i < listaAdj.size(); i++) {
             Vertice v = listaAdj.get(i);
@@ -107,38 +105,75 @@ public class Dijkstra {
             st[i][2] = v.getPi();
             st[i][3] = " ";
             st[i][4] = "x";
+            st[i][5] = id;
         }
 
+        return st;
+
+    }
+
+    public String vetorRoteamentoToString(String id){
+        StringBuilder str = new StringBuilder();
+        int size = listaAdj.size();
+        String[][] st = this.vetorRoteamento(id);
         // Cabeçalhos
         str.append(String.format("%-8s", "VERTICE"));
         for (int i = 0; i < size; i++) {
             str.append(String.format("%-8s", st[i][0]));
         }
         str.append("\n");
-
         str.append(String.format("%-8s", "d"));
         for (int i = 0; i < size; i++) {
             str.append(String.format("%-8s", st[i][1]));
         }
         str.append("\n");
-
         str.append(String.format("%-8s", "Pi"));
         for (int i = 0; i < size; i++) {
             str.append(String.format("%-8s", st[i][2]));
         }
         str.append("\n");
-
         str.append(String.format("%-8s", "q"));
         for (int i = 0; i < size; i++) {
             str.append(String.format("%-8s", st[i][3]));
         }
         str.append("\n");
-
         str.append(String.format("%-8s", "s"));
         for (int i = 0; i < size; i++) {
             str.append(String.format("%-8s", st[i][4]));
         }
+        return str.toString();
 
+    }
+
+    public String vetorRoteamentoToString(String[][] li){
+        StringBuilder str = new StringBuilder();
+        int size = li.length;
+        String[][] st = li;
+        // Cabeçalhos
+        str.append(String.format("%-8s", "VERTICE"));
+        for (int i = 0; i < size; i++) {
+            str.append(String.format("%-8s", st[i][0]));
+        }
+        str.append("\n");
+        str.append(String.format("%-8s", "d"));
+        for (int i = 0; i < size; i++) {
+            str.append(String.format("%-8s", st[i][1]));
+        }
+        str.append("\n");
+        str.append(String.format("%-8s", "Pi"));
+        for (int i = 0; i < size; i++) {
+            str.append(String.format("%-8s", st[i][2]));
+        }
+        str.append("\n");
+        str.append(String.format("%-8s", "q"));
+        for (int i = 0; i < size; i++) {
+            str.append(String.format("%-8s", st[i][3]));
+        }
+        str.append("\n");
+        str.append(String.format("%-8s", "s"));
+        for (int i = 0; i < size; i++) {
+            str.append(String.format("%-8s", st[i][4]));
+        }
         return str.toString();
 
     }
