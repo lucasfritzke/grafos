@@ -1,6 +1,7 @@
 package grafo;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Grafo {
 
@@ -51,6 +52,56 @@ public class Grafo {
     public String getVetorRotasDijkstra(String id) {
         Dijkstra d = new Dijkstra(listaAdj);
         return d.vetorRoteamentoToString(id);
+    }
+
+    public boolean isEuleriano(){
+
+        for (Vertice v : listaAdj) {
+             if(v.getListaAdj().length() % 2 != 0){
+
+                return false;
+             } 
+        }
+
+        return true;
+
+    }
+
+    public String getCicloEureliano(String id){
+        if(this.isEuleriano()){
+            this.zerarFlags();
+            int contCusto =0;
+            Vertice temp;
+            int grauVerticeTemp =0;
+            String ciclo ="Ciclo ={ ";
+            
+            /*
+             * flag -> Arestas: ' ' ainda nao descoberto | 'r' removido
+             * flag -> Vertice: ' ' nao descoberto | 'd' descoberto | 'f' fechado 
+             */
+            Vertice u = this.getVertice(id);
+            u.setFlag('d');
+            ciclo += u.getId()+" ";
+            
+            ArrayList<Aresta> arestasAdj = u.getListaArestas();
+            for (Aresta aresta : arestasAdj) {
+                if(aresta.getFlag() != 'r'){
+                    
+                }
+            }
+
+            return ciclo += " } \n Custo Total: "+contCusto;
+
+        } else {
+            return "Nao é euleriano";
+        }
+    }
+
+    private void zerarFlags() {
+
+        for (Vertice v : listaAdj) {
+            v.zerarFlags();
+        }
     }
 
     

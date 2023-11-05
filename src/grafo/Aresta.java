@@ -4,6 +4,7 @@ public class Aresta implements Comparable<Aresta> {
 
     private int custo;
     private Vertice verticeAdj;
+    private char flag= ' ';
 
     public Aresta() {
     }
@@ -36,6 +37,18 @@ public class Aresta implements Comparable<Aresta> {
         return this.verticeAdj.getId().compareTo(o.getVerticeAdj().getId());
 
     }
+
+
+    public char getFlag() {
+        return flag;
+    }
+
+
+    public void setFlag(char flag) {
+        this.flag = flag;
+    }
+    
+
     
 
     

@@ -77,6 +77,14 @@ public class Vertice implements Comparable<Vertice>{
 
     public void setPi(String pi) {
         this.pi = pi;
+    }
+
+    public void zerarFlags() {
+
+        this.setFlag(' ');
+        for (Aresta a : listaArestas) {
+            a.setFlag(' ');
+        }
     }    
     
     
