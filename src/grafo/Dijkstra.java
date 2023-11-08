@@ -1,6 +1,7 @@
 package grafo;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class Dijkstra {
@@ -10,23 +11,14 @@ public class Dijkstra {
     public Dijkstra(ArrayList<Vertice> listaAdj) {
         this.listaAdj = listaAdj;
     }
-
     public ArrayList<Vertice> getListaAdj() {
         return listaAdj;
     }
-
     public void setListaAdj(ArrayList<Vertice> listaAdj) {
         this.listaAdj = listaAdj;
     }
 
-    public String[][] calcularRota(String id){
-
-        return null;
-
-    }
-
     public Vertice getVertice(String id) {
-        
         for (Vertice v : listaAdj) {
             if (v.getId().equals(id)) {
                 return v;
@@ -35,12 +27,12 @@ public class Dijkstra {
         return null;
     }
 
-    public String[][] dijkstra(String id) {
+    public void dijkstra(String id) {
         Vertice v = this.getVertice(id);
         if (v != null) {
             this.initializaSingleSource(id);
         } else {
-            return null;
+            throw new IllegalArgumentException("Vertice nao existe");
         }
         
         ArrayList<Vertice> s = new ArrayList<>();
@@ -66,8 +58,6 @@ public class Dijkstra {
             }
 
         }
-        return null;
-
     }
 
     private void initializaSingleSource(String id) {
@@ -112,70 +102,21 @@ public class Dijkstra {
 
     }
 
-    public String vetorRoteamentoToString(String id){
-        StringBuilder str = new StringBuilder();
-        int size = listaAdj.size();
-        String[][] st = this.vetorRoteamento(id);
-        // Cabeçalhos
-        str.append(String.format("%-8s", "VERTICE"));
-        for (int i = 0; i < size; i++) {
-            str.append(String.format("%-8s", st[i][0]));
-        }
-        str.append("\n");
-        str.append(String.format("%-8s", "d"));
-        for (int i = 0; i < size; i++) {
-            str.append(String.format("%-8s", st[i][1]));
-        }
-        str.append("\n");
-        str.append(String.format("%-8s", "Pi"));
-        for (int i = 0; i < size; i++) {
-            str.append(String.format("%-8s", st[i][2]));
-        }
-        str.append("\n");
-        str.append(String.format("%-8s", "q"));
-        for (int i = 0; i < size; i++) {
-            str.append(String.format("%-8s", st[i][3]));
-        }
-        str.append("\n");
-        str.append(String.format("%-8s", "s"));
-        for (int i = 0; i < size; i++) {
-            str.append(String.format("%-8s", st[i][4]));
-        }
-        return str.toString();
-
+    public VetorRotasDijkstra getVetorRoteamento(String id){
+        this.dijkstra(id);
+        VetorRotasDijkstra v = new VetorRotasDijkstra(listaAdj);
+        return v;
     }
 
-    public String vetorRoteamentoToString(String[][] li){
-        StringBuilder str = new StringBuilder();
-        int size = li.length;
-        String[][] st = li;
-        // Cabeçalhos
-        str.append(String.format("%-8s", "VERTICE"));
-        for (int i = 0; i < size; i++) {
-            str.append(String.format("%-8s", st[i][0]));
-        }
-        str.append("\n");
-        str.append(String.format("%-8s", "d"));
-        for (int i = 0; i < size; i++) {
-            str.append(String.format("%-8s", st[i][1]));
-        }
-        str.append("\n");
-        str.append(String.format("%-8s", "Pi"));
-        for (int i = 0; i < size; i++) {
-            str.append(String.format("%-8s", st[i][2]));
-        }
-        str.append("\n");
-        str.append(String.format("%-8s", "q"));
-        for (int i = 0; i < size; i++) {
-            str.append(String.format("%-8s", st[i][3]));
-        }
-        str.append("\n");
-        str.append(String.format("%-8s", "s"));
-        for (int i = 0; i < size; i++) {
-            str.append(String.format("%-8s", st[i][4]));
-        }
-        return str.toString();
 
+    class ArestaComparator implements Comparator<Aresta> {
+
+   
+    public int compare(Aresta aresta, Aresta outraAresta) {
+        
+        return Integer.compare(aresta.getCusto(), outraAresta.getCusto());
     }
+    
+}
     
 }

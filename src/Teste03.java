@@ -23,8 +23,8 @@ public class Teste03 {
         gr.addAresta("F", "D", 8);
         gr.addAresta("F", "E", 4);
         gr.addAresta("E", "D", 3);
-        System.out.println(gr.eulerizarCaixeiroChines("A"));
-
+        // System.out.println(gr.getVetorRotasDijkstra("A"));
+        System.out.println(gr.calcularCarteiroChines("A"));
     }
     
 }

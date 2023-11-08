@@ -55,7 +55,7 @@ public class Teste2 {
         System.out.println(gr.getVetorRotasDijkstra("A"));
         System.out.println("\n");
         System.out.println(gr.getVetorRotasDijkstra("I"));
-        System.out.println("Euleriano: "+ gr.isEuleriano());
+    
 
 
     }
