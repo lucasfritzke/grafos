@@ -3,6 +3,9 @@ package grafo;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Dijkstra {
 
@@ -11,9 +14,11 @@ public class Dijkstra {
     public Dijkstra(ArrayList<Vertice> listaAdj) {
         this.listaAdj = listaAdj;
     }
+
     public ArrayList<Vertice> getListaAdj() {
         return listaAdj;
     }
+
     public void setListaAdj(ArrayList<Vertice> listaAdj) {
         this.listaAdj = listaAdj;
     }
@@ -34,27 +39,22 @@ public class Dijkstra {
         } else {
             throw new IllegalArgumentException("Vertice nao existe");
         }
-        
-        ArrayList<Vertice> s = new ArrayList<>();
-        PriorityQueue<Vertice> q = new PriorityQueue<>(new VerticeDijkstraComparator());
+
+        TreeMap<String, Vertice> verticesProcessados = new TreeMap<>();
+        PriorityQueue<Vertice> filaVertices = new PriorityQueue<>(new VerticeDijkstraComparator());
         for (Vertice vertice : listaAdj) {
-            q.add(vertice);
+            filaVertices.add(vertice);
         }
 
-        while (!q.isEmpty()) {
-            Vertice u = q.poll();
-            s.add(u);
+        while (!filaVertices.isEmpty()) {
+            Vertice u = filaVertices.poll();
+            verticesProcessados.put(u.getId(), u);
             ArrayList<Aresta> listaArestas = u.getListaArestas();
-            PriorityQueue<Aresta> filaArestas = new PriorityQueue<>(new ArestaComparator());
-            for (Aresta aresta : listaArestas) {
-                filaArestas.add(aresta);
-            }
-            while (!filaArestas.isEmpty()) {
-                Aresta aresta = filaArestas.poll();
-                Vertice adj = aresta.getVerticeAdj();
-                
-                this.relax(u, adj, aresta.getCusto(), q);
-                
+            
+            for (Aresta a : listaArestas) {
+                if(!verticesProcessados.containsKey(a.getVerticeAdj().getId())){
+                    this.relax(u, a.getVerticeAdj(), a.getCusto(), filaVertices);
+                }
             }
 
         }
@@ -84,39 +84,28 @@ public class Dijkstra {
         }
     }
 
-    public String[][] vetorRoteamento(String id){
+    public VetorRotasDijkstra getVetorRoteamento(String id) {
         this.dijkstra(id);
-        String[][] st = new String[listaAdj.size()][6];
-
-        for (int i = 0; i < listaAdj.size(); i++) {
-            Vertice v = listaAdj.get(i);
-            st[i][0] = v.getId();
-            st[i][1] = Integer.toString(v.getD());
-            st[i][2] = v.getPi();
-            st[i][3] = " ";
-            st[i][4] = "x";
-            st[i][5] = id;
-        }
-
-        return st;
-
-    }
-
-    public VetorRotasDijkstra getVetorRoteamento(String id){
-        this.dijkstra(id);
-        VetorRotasDijkstra v = new VetorRotasDijkstra(listaAdj);
+        VetorRotasDijkstra v = new VetorRotasDijkstra(listaAdj, id);
         return v;
     }
 
-
     class ArestaComparator implements Comparator<Aresta> {
+        @Override
+        public int compare(Aresta aresta, Aresta outraAresta) {
 
-   
-    public int compare(Aresta aresta, Aresta outraAresta) {
-        
-        return Integer.compare(aresta.getCusto(), outraAresta.getCusto());
+            return Integer.compare(aresta.getCusto(), outraAresta.getCusto());
+        }
+
     }
-    
-}
-    
+
+    public class VerticeDijkstraComparator implements Comparator<Vertice> {
+
+        @Override
+        public int compare(Vertice o1, Vertice o2) {
+            return Integer.compare(o1.getD(), o2.getD());
+        }
+
+    }
+
 }

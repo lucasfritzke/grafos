@@ -5,11 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class VetorRotasDijkstra {
-
+    
+    private String id;
     HashMap<String, ColunaVetorDijkstra> matriz = new HashMap<>();
 
-    public VetorRotasDijkstra(ArrayList<Vertice> listaAdj) {
-
+    public VetorRotasDijkstra(ArrayList<Vertice> listaAdj, String id) {
+        this.setId(id);
         for (Vertice v : listaAdj) {
             matriz.put(v.getId(), new ColunaVetorDijkstra());
             ColunaVetorDijkstra c = matriz.get(v.getId());
@@ -17,6 +18,14 @@ public class VetorRotasDijkstra {
             c.pai = v.getPi();
         }
 
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getDistancia(String id) {
@@ -31,6 +40,11 @@ public class VetorRotasDijkstra {
         int distancia = 0;
         String pai = "";
         boolean processado = false;
+    }
+
+    public  HashMap<String, ColunaVetorDijkstra> getMatriz(){
+
+        return this.matriz;
     }
 
     @Override
