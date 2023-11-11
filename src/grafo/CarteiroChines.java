@@ -1,7 +1,6 @@
 package grafo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class CarteiroChines {
@@ -14,22 +13,34 @@ public class CarteiroChines {
     }
 
     public String calcularRota(String id) {
-        String str = "";
+        String str = "---------------------- EXECUÇÃO ALGORITMO CARTEIRO CHINES ---------------------- \n \n";
         if (!isEuleriano()) {
 
             List<Vertice> listaVerticesImpares = this.getVerticesImpares();
+            str += "Vertices Impares = { ";
+            for (Vertice v : listaVerticesImpares) {
+                str += v.getId()+", ";
+            }
+            str += "}"; str.replaceAll(", }", " }");
+
             List<VetorRotasDijkstra> vetoresRotaDijkstras = new ArrayList<>();
             Dijkstra d = new Dijkstra(listaAdj);
+            str += "\n" + 
+                    "\n" + 
+                    "------------------------ CAMINHO MINIMO DE CADA VERTICE ------------------------ \n \n";
 
             for (Vertice v : listaVerticesImpares) {
                 VetorRotasDijkstra vrd = d.getVetorRoteamento(v.getId());
                 vetoresRotaDijkstras.add(vrd);
+                str +="Dijkstra Vertice: "+ vrd.getId() +"\n";
                 str += vrd.toString() + "\n\n";
 
             }
-
+            str += "\n" + 
+                    "\n" + 
+                    "------------------------------- MATRIZ DE CUSTO ------------------------------- \n \n";
             MatrizCusto m = new MatrizCusto(vetoresRotaDijkstras, listaVerticesImpares);
-
+            str += m.toString()+"\n";
         }
 
         return str;
@@ -92,22 +103,29 @@ public class CarteiroChines {
                 }
 
             }
+        }
+
+        @Override
+        public String toString(){
+            ArrayList<ArrayList<CelulaMatrizCusto>> matriz = this.matriz;
 
             StringBuilder str = new StringBuilder();
 
-            str.append(String.format("%-8s", "null"));
+            str.append(String.format("%-3s", " "));
             for (Vertice v : listaVerticesImpares) {
-                str.append(String.format("%-8s", v.getId()));
+                str.append(String.format("%-5s", v.getId()));
             }
             str.append("\n");
             for (ArrayList<CelulaMatrizCusto> linha : matriz) {
-                str.append(String.format("%-8s", linha.get(0).getIdVertice()));
+                str.append(String.format("%-3s", linha.get(0).getIdVertice()));
                 for (CelulaMatrizCusto c : linha) {
-                    str.append(String.format("%-8s", c.getCusto()));
+                    str.append(String.format("%-5s", c.getCusto()));
                 }
                 str.append("\n");
             }
-            System.out.println(str);
+
+            return str.toString();
+
         }
 
     }

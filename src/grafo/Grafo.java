@@ -1,6 +1,6 @@
 package grafo;
 import java.util.ArrayList;
-import java.util.List;
+
 
 
 public class Grafo {
@@ -67,30 +67,5 @@ public class Grafo {
         return cc.calcularRota(id);
 
     }
-
-    private void zerarFlags() {
-
-        for (Vertice v : listaAdj) {
-            v.zerarFlags();
-        }
-    }
-    
-    private List<Vertice> getVerticesImpares() {
-        List<Vertice> li = new ArrayList<>();
-        for (Vertice v : listaAdj) {
-             if(v.getListaArestas().size() % 2 != 0){
-                li.add(v);
-                ;
-             } 
-        }
-
-        return li;
-    }
-
-    
-
-   
-
-  
 
 }

@@ -19,14 +19,14 @@ public class Teste04 {
         gr.addVertice("11");
         gr.addVertice("12");
 
-        gr.addAresta("2", "3", 18); //
+        gr.addAresta("2", "3", 18); 
         gr.addAresta("2", "4", 9);
         gr.addAresta("2", "1", 13);
         gr.addAresta("2", "9", 2);
         gr.addAresta("1", "7", 19);
         gr.addAresta("1", "12", 4);
         gr.addAresta("7", "12", 18);
-        gr.addAresta("4", "3", 20); //
+        gr.addAresta("4", "3", 20); 
         gr.addAresta("1", "4", 17);
 
         gr.addAresta("9", "11", 14);
@@ -38,7 +38,7 @@ public class Teste04 {
         gr.addAresta("8", "7", 8);
         gr.addAresta("7", "6", 4);
         gr.addAresta("11", "5", 20);
-        gr.addAresta("3", "5", 5); //
+        gr.addAresta("3", "5", 5); 
         gr.addAresta("12", "5", 11);
         gr.addAresta("6", "5", 7);
         gr.addAresta("12", "6", 3);
