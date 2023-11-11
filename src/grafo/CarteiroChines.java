@@ -14,21 +14,20 @@ public class CarteiroChines {
 
     public String calcularRota(String id) {
         String str = "---------------------- EXECUÇÃO ALGORITMO CARTEIRO CHINES ---------------------- \n \n";
+        // 1 - DETERMINAR VERTICES DE GRAU IMPAR
         if (!isEuleriano()) {
-
             List<Vertice> listaVerticesImpares = this.getVerticesImpares();
             str += "Vertices Impares = { ";
             for (Vertice v : listaVerticesImpares) {
                 str += v.getId()+", ";
             }
             str += "}"; str.replaceAll(", }", " }");
-
+        // 2 - CONSTRUIR MATRIZ DE DISTANCIA
             List<VetorRotasDijkstra> vetoresRotaDijkstras = new ArrayList<>();
             Dijkstra d = new Dijkstra(listaAdj);
             str += "\n" + 
                     "\n" + 
                     "------------------------ CAMINHO MINIMO DE CADA VERTICE ------------------------ \n \n";
-
             for (Vertice v : listaVerticesImpares) {
                 VetorRotasDijkstra vrd = d.getVetorRoteamento(v.getId());
                 vetoresRotaDijkstras.add(vrd);
@@ -41,6 +40,8 @@ public class CarteiroChines {
                     "------------------------------- MATRIZ DE CUSTO ------------------------------- \n \n";
             MatrizCusto m = new MatrizCusto(vetoresRotaDijkstras, listaVerticesImpares);
             str += m.toString()+"\n";
+        // 3 - DETERMINAR VERTICES PARA CONSTRUIR CAMINHO ARTIFICIAL
+        List<CelulaMatrizCusto> caminhos = m.getVerticesMenorCaminho();
         }
 
         return str;
@@ -80,6 +81,40 @@ public class CarteiroChines {
             this.vetoresRotaDijkstras = vetoresRotaDijkstras;
             this.listaVerticesImpares = listaVerticesImpares;
             this.gerarMatriz();
+        }
+
+        public List<CelulaMatrizCusto> getVerticesMenorCaminho() {
+
+            List<CelulaMatrizCusto> lista = new ArrayList<>();
+
+            while(this.matriz.size() != 0){
+
+            CelulaMatrizCusto temp = new CelulaMatrizCusto(null, null, Integer.MAX_VALUE);
+            // PEGAR MENOR VALOR
+            for (ArrayList<CelulaMatrizCusto> linha : matriz) {
+                for (CelulaMatrizCusto c : linha) {
+                    if(c.getCusto() < temp.getCusto() && c.getCusto() > 0){
+                        temp = c;
+                    }
+                }
+            }
+            lista.add(temp);
+            // ELIMINAR DA MATRIZ VALORES
+            for (ArrayList<CelulaMatrizCusto> linha : matriz) {
+                for (CelulaMatrizCusto c : linha) {
+                    if(c.getIdVertice().equals(temp.getIdVertice()) ||
+                    c.getIdVertice().equals(temp.getIdVerticeAdj()) ||
+                    c.getIdVerticeAdj().equals(temp.getIdVerticeAdj())|| 
+                    c.getIdVerticeAdj().equals(temp.getIdVertice())){
+                        linha.remove(c);
+                    }
+                }
+            }
+
+            }
+            System.out.println(matriz.toString());
+
+            return lista;
         }
 
         private void gerarMatriz() {
