@@ -32,6 +32,7 @@ public class CarteiroChines {
             int custo = grafo.getCustoTotal();
             String cicloEuleriano = grafo.gerarCicloEuleriano(id);;
             System.out.println(custo);
+            System.out.println(cicloEuleriano);
 
         } else {
             str.append("grafo é euleriano");

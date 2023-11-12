@@ -5,8 +5,8 @@ public class Aresta implements Comparable<Aresta> {
     private int custo;
     private Vertice verticeAdj;
     private int flagCaminhoVirtual=0;
-    private char flagStatus =' ';
-    
+    private char flagStatus =' ';   
+    private int flagBfsCont = 0;
     
     public int getFlagCaminhoVirtual() {
         return flagCaminhoVirtual;
@@ -49,5 +49,12 @@ public class Aresta implements Comparable<Aresta> {
     }
     public void setFlagStatus(char status) {
         this.flagStatus = status;
+    }
+
+    public int getFlagBfsCont() {
+        return flagBfsCont;
+    }
+    public void setFlagBfsCont(int flagBfsCont) {
+        this.flagBfsCont = flagBfsCont;
     }
 }
