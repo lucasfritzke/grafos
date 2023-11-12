@@ -51,8 +51,8 @@ public class Dijkstra {
             ArrayList<Aresta> listaArestas = u.getListaArestas();
             
             for (Aresta a : listaArestas) {
-                if(!verticesProcessados.containsKey(a.getVerticeAdj().getId())){
-                    this.relax(u, a.getVerticeAdj(), a.getCusto(), filaVertices);
+                if(!verticesProcessados.containsKey(a.getVerticeAdjacente(u).getId())){
+                    this.relax(u, a.getVerticeAdjacente(u), a.getCusto(), filaVertices);
                 }
             }
 

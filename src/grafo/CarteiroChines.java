@@ -14,9 +14,13 @@ public class CarteiroChines {
     }
 
     public String calcularRota(String id) {
-
+        
         grafo.zerarFlags();
-        str.append("---------------------- EXECUÇÃO ALGORITMO CARTEIRO CHINES ---------------------- \n \n");
+        System.out.println(grafo.toString());
+
+        str.append("---------------------- EXECUÇÃO ALGORITMO CARTEIRO CHINES ----------------------");
+        str.append("\n");
+        str.append("\n");
         List<Vertice> listaVerticesImpares = grafo.getVerticesGrauImpar();
         if (!listaVerticesImpares.isEmpty()) {
             str.append(this.verticesImparToString(listaVerticesImpares));
@@ -24,30 +28,34 @@ public class CarteiroChines {
 
             vetoresRotaDijkstras = this.calcularCaminhoMinimo(listaVerticesImpares);
             MatrizCusto matrizCusto = new MatrizCusto(vetoresRotaDijkstras, listaVerticesImpares);
-            str.append("------------------------------- MATRIZ DE CUSTO ------------------------------- \n \n");
+            str.append("------------------------------- MATRIZ DE CUSTO -------------------------------");
+            str.append("\n");
+            str.append("\n");
             str.append(matrizCusto.toString() + "\n");
             List<CelulaMatrizCusto> caminhos = matrizCusto.getVerticesMenorCaminho();
             this.criarCaminhosArtificiais(caminhos, vetoresRotaDijkstras);
-            System.out.println(grafo.toString());
+
             int custo = grafo.getCustoTotal();
+            str.append("CICLO EULERIANO: \n");
             String cicloEuleriano = grafo.gerarCicloEuleriano(id);;
+            System.out.println(grafo.toString());
             System.out.println(custo);
-            System.out.println(cicloEuleriano);
+
+            str.append(cicloEuleriano+"\n");
+            str.append("Custo: "+ custo);
 
         } else {
             str.append("grafo é euleriano");
         }
 
-            
-            
-
-        
-
         return str.toString();
     }
 
     private List<VetorRotasDijkstra> calcularCaminhoMinimo(List<Vertice> listaVerticesImpares) {
-        str.append("------------------------ CAMINHO MINIMO DE CADA VERTICE ------------------------ \n \n");
+        str.append("\n");
+        str.append("\n");
+        str.append("------------------------ CAMINHO MINIMO DE CADA VERTICE ------------------------");
+        str.append("\n");
         List<VetorRotasDijkstra> vetoresRotaDijkstras = new ArrayList<>();
         Dijkstra d = new Dijkstra(grafo.getListaAdj());
         for (Vertice v : listaVerticesImpares) {
@@ -68,7 +76,8 @@ public class CarteiroChines {
         }
         str.append("}");
         String st = str.toString();
-        st.replaceAll(", }", "}");
+        st = st.replaceAll(", }", " }");
+        
         return st;
     }
 

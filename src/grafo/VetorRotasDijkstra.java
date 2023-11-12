@@ -59,18 +59,18 @@ public class VetorRotasDijkstra {
         // Cria a primeira linha da matriz com os IDs dos vértices
         str.append(String.format("%-3s", " "));
         for (String id : ids) {
-            str.append(String.format("%-8s", id));
+            str.append(String.format("%-6s", id));
         }
         str.append("\n");
         str.append(String.format("%-3s", "d"));
         for (Map.Entry<String, ColunaVetorDijkstra> c: matriz.entrySet()) {
-            str.append(String.format("%-8s", c.getValue().distancia));
+            str.append(String.format("%-6s", c.getValue().distancia));
         }
         
         str.append("\n");
         str.append(String.format("%-3s", "pi"));
         for (Map.Entry<String, ColunaVetorDijkstra> c: matriz.entrySet()) {
-            str.append(String.format("%-8s", c.getValue().pai));
+            str.append(String.format("%-6s", c.getValue().pai));
         }
 
         return str.toString();

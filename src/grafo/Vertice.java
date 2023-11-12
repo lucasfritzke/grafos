@@ -1,7 +1,6 @@
 package grafo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Vertice implements Comparable<Vertice> {
 
@@ -11,20 +10,14 @@ public class Vertice implements Comparable<Vertice> {
     // atributos para Dijkstra
     private int d;
     private String pi;
-    private boolean excluido = false; // para fleury
 
     public Vertice(String id) {
         this.id = id;
     }
 
-    public void addAresta(int custo, Vertice v) {
-
-        Aresta a = new Aresta();
-        a.setVerticeAdj(v);
-        a.setCusto(custo);
-        listaArestas.add(a);
-        listaArestas.sort(null);
-
+    public void addAresta(Aresta a) {
+        this.listaArestas.add(a);
+        this.listaArestas.sort(null);
     }
 
     @Override
@@ -37,10 +30,12 @@ public class Vertice implements Comparable<Vertice> {
         String str = "" + this.getId() + " ->";
 
         for (Aresta a : listaArestas) {
-            str += "| " + a.getVerticeAdj().getId() + " | " + a.getCusto() + " |->";
-            if (a.getFlagCaminhoVirtual() == 1) {
-                str += "| " + a.getVerticeAdj().getId() + " | " + a.getCusto() + " |->";
-            }
+                Vertice[] v = a.getVertices();
+                if(this.getId().equals(v[0].getId())){
+                    str += "|"+v[1].getId() + "|"+a.getCusto()+"|-> ";
+                } else{
+                    str += "|"+v[0].getId() + "|"+a.getCusto()+"|-> ";
+                }
         }
 
         return str;
@@ -84,56 +79,17 @@ public class Vertice implements Comparable<Vertice> {
         this.pi = pi;
     }
 
-    public void addCaminhoVirtual(String idAdj, int custo) {
-        for (Aresta aresta : listaArestas) {
-            if (aresta.getVerticeAdj().getId().equals(idAdj) && aresta.getCusto() == custo) {
-                aresta.setFlagCaminhoVirtual(aresta.getFlagCaminhoVirtual() + 1);
-            }
-        }
-    }
-
-    public void duplicarAresta(String v1, int custo) {
-        for (Aresta a : listaArestas) {
-            if (a.getVerticeAdj().getId().equals(v1) && a.getCusto() == custo) {
-                a.setFlagCaminhoVirtual(1);
-            }
-        }
-    }
-
     public void setListaArestas(ArrayList<Aresta> listaArestas) {
         this.listaArestas = listaArestas;
     }
 
-    public boolean isExcluido() {
-        return excluido;
+    public void removerDuplicacoes(Aresta aresta) {
+
+       while(listaArestas.contains(aresta)){
+            listaArestas.remove(aresta);
+       }
+       this.addAresta(aresta);
     }
 
-    public void setExcluido(boolean excluido) {
-        this.excluido = excluido;
-    }
 
-    public int getQtdArestasFleury() {
-        int cont = 0;
-        for (Aresta a : listaArestas) {
-            if (a.getFlagStatus() != 'e') {
-                if (a.getFlagCaminhoVirtual() > 0) {
-                    cont += 1 + a.getFlagCaminhoVirtual();
-                } else {
-                    cont++;
-                }
-            }
-        }
-        return cont;
-    }
-
-    public List<Aresta> getArestasValidasFleury() {
-        ArrayList<Aresta> li = new ArrayList<>();
-        for (Aresta a : this.listaArestas) {
-            if (a.getFlagStatus() != 'e') {
-                li.add(a);
-            }
-        }
-
-        return li;
-    }
 }

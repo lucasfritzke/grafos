@@ -2,7 +2,11 @@ package grafo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Stack;
 
 public class Grafo {
 
@@ -40,11 +44,13 @@ public class Grafo {
 
         Vertice v1 = this.getVertice(idVertice1);
         Vertice v2 = this.getVertice(idVertice2);
+
         if (v1 != null && v2 != null && !v1.equals(v2)) {
-            v1.addAresta(custo, v2);
-            v2.addAresta(custo, v1);
+            Aresta a = new Aresta(v1, v2, custo);
+            v1.addAresta(a);
+            v2.addAresta(a);
         } else {
-            throw new IllegalArgumentException("Entrada invalida");
+            throw new IllegalArgumentException("Entrada invalida: Vertice nao encontrado");
         }
     }
 
@@ -76,15 +82,79 @@ public class Grafo {
         return li;
     }
 
-    public void duplicarArestas(String v1, String v2, int custo) {
-        for (Vertice v : listaAdj) {
-            if (v.getId().equals(v2)) {
-                v.duplicarAresta(v1, custo);
-            }
-            if (v.getId().equals(v1)) {
-                v.duplicarAresta(v2, custo);
+    public void duplicarArestas(Vertice v1, Vertice v2, int custo) {
+        Aresta aTemp = new Aresta(v1, v2, custo);
+
+        for (Vertice vertice : listaAdj) {
+            ArrayList<Aresta> liAresta = vertice.getListaArestas();
+            for (Aresta aresta : liAresta) {
+                if (aresta.equals(aTemp)) {
+                    aresta.setDuplicacao(true);
+                    v1.addAresta(aTemp);
+                    v2.addAresta(aTemp);
+                    return;
+                }
             }
         }
+    }
+
+    public void duplicarArestas(Aresta a) {
+        Vertice[] v = a.getVertices();
+        Aresta aTemp = new Aresta(v[0], v[1], a.getCusto());
+
+        for (Vertice vertice : listaAdj) {
+            ArrayList<Aresta> liAresta = vertice.getListaArestas();
+            for (Aresta aresta : liAresta) {
+                if (aresta.equals(aTemp)) {
+                    aresta.setDuplicacao(true);
+                    v[0].addAresta(aTemp);
+                    v[1].addAresta(aTemp);
+                    return;
+                }
+            }
+        }
+    }
+
+    public void duplicarArestas(String id1, String id2, int custo) {
+
+        Vertice v1 = this.getVertice(id1);
+        Vertice v2 = this.getVertice(id2);
+        Aresta aTemp = new Aresta(v1, v2, custo);
+        Aresta aTemp2 = new Aresta(v2, v1, custo);
+
+        for (Vertice vertice : listaAdj) {
+            ArrayList<Aresta> liAresta = vertice.getListaArestas();
+            for (Aresta aresta : liAresta) {
+                if (aresta.equals(aTemp)) {
+                    aresta.setDuplicacao(true);
+                    v1.addAresta(aTemp);
+                    v2.addAresta(aTemp);
+                    return;
+                } else if (aresta.equals(aTemp2)) {
+                    aresta.setDuplicacao(true);
+                    v1.addAresta(aTemp2);
+                    v2.addAresta(aTemp2);
+                    return;
+                }
+            }
+        }
+    }
+
+    public void removerDuplicacoes() {
+
+        Iterator<Vertice> iteratorVertice = this.listaAdj.iterator();
+        while (iteratorVertice.hasNext()) {
+            Vertice v = iteratorVertice.next();
+            Iterator<Aresta> iteratorAresta = v.getListaArestas().iterator();
+            while (iteratorAresta.hasNext()) {
+                Aresta a = iteratorAresta.next();
+                if (a.isDuplicacao()) {
+                    iteratorAresta.remove();
+                }
+            }
+
+        }
+
     }
 
     @Override
@@ -96,17 +166,47 @@ public class Grafo {
         return str;
     }
 
-    public int getCustoTotal() {
-        int cont = 0;
+    public Aresta getAresta(String string, String string2, int i) {
+        Vertice v1 = this.getVertice(string);
+        Vertice v2 = this.getVertice(string2);
+        Aresta temp = new Aresta(v1, v2, i);
         for (Vertice v : listaAdj) {
-            ArrayList<Aresta> listaAresta = v.getListaArestas();
-            for (Aresta a : listaAresta) {
-                cont += a.getCusto();
-                if (a.getFlagCaminhoVirtual() > 0) {
-                    cont += a.getCusto() * a.getFlagCaminhoVirtual();
+            ArrayList<Aresta> liAr = v.getListaArestas();
+            for (Aresta aresta : liAr) {
+                if (aresta.equals(temp)) {
+                    return aresta;
                 }
             }
+
         }
+        return null;
+    }
+
+    public void zerarFlags() {
+        this.removerDuplicacoes();
+        for (Vertice vertice : listaAdj) {
+
+            ArrayList<Aresta> liAr = vertice.getListaArestas();
+            for (Aresta aresta : liAr) {
+                aresta.setFlag(' ');
+            }
+
+        }
+
+    }
+
+    public int getCustoTotal() {
+        int cont = 0;
+
+        for (Vertice vertice : listaAdj) {
+
+            ArrayList<Aresta> liAr = vertice.getListaArestas();
+            for (Aresta aresta : liAr) {
+                cont += aresta.getCusto();
+            }
+
+        }
+
         return cont / 2;
     }
 
@@ -115,32 +215,36 @@ public class Grafo {
         Vertice v = this.getVertice(id);
         int contBfs = 0;
         for (Vertice ve : listaAdj) {
-            if (!ve.isExcluido()) {
-                contBfs++;
-            }
+            contBfs++;
         }
         percorrerGrafo(v, contBfs);
-        return str.toString();
+        String s = str.toString();
+        int tam = s.length();
+        
+        return s.substring(0, tam-2);
     }
 
     public void percorrerGrafo(Vertice v, int contBfs) {
 
         str.append(v.getId() + " - "); // ADD VERTICE VISITADO
-        int qtdArestas = v.getQtdArestasFleury();
-        List<Aresta> arestas = v.getArestasValidasFleury();
-        if (qtdArestas == 1) { // SE FOR O UNICO NAO PRECISA TESTAR SE E PONTE
-            Aresta a = arestas.get(0);
-            v.setExcluido(true);
-            this.removeVirtual(v.getId(), a.getVerticeAdj().getId(), a.getCusto());
-            Vertice vAdj = a.getVerticeAdj();
+        List<Aresta> arestasValidas = this.getArestasValidas(v);
+
+        if (arestasValidas.size() == 1) { // SE FOR O UNICO NAO PRECISA TESTAR SE E PONTE
+            Aresta a = arestasValidas.get(0);
+            v.setFlag('e');
+            a.setFlag('e');
+            Vertice vAdj = a.getVerticeAdjacente(v);
             contBfs--;
             percorrerGrafo(vAdj, contBfs);
             return;
         } else {
-            for (Aresta a : arestas) {
-                if (a.getFlagStatus() != 'p' && !this.isPonte(a.getVerticeAdj(), a, contBfs)) {
-                    this.removeVirtual(v.getId(), a.getVerticeAdj().getId(), a.getCusto());
-                    percorrerGrafo(a.getVerticeAdj(), contBfs);
+            for (Aresta a : arestasValidas) {
+
+                if (!this.isPonte(v, a)) {
+                    a.setFlag('e');
+                    Vertice vAdj = a.getVerticeAdjacente(v);
+                    contBfs--;
+                    percorrerGrafo(vAdj, contBfs);
                     return;
                 }
             }
@@ -148,143 +252,64 @@ public class Grafo {
 
     }
 
-    private boolean isPonte(Vertice v, Aresta a, int contBfs) {
-        int contVerticesAtingidos = 0; // CONTA O VERTICE INICIAL
-        a.setFlagStatus('p'); // indica que é ponte
-        Vertice va = a.getVerticeAdj();
-        ArrayList<Aresta> arestas = va.getListaArestas();
-        for (Aresta aresta : arestas) {
-            if(aresta.getVerticeAdj().equals(v)){
-                aresta.setFlagStatus('p'); // SELECIONA PAR O OUTRO VERTICE
+    private boolean isPonte(Vertice v, Aresta a) {
+        this.zerarFlagsBusca();
+        a.setFlagBusca('p');
+        int qtdVerticesValidos = 0;
+        for (Vertice vertice : listaAdj) {
+            if (vertice.getFlag() != 'e') {
+                qtdVerticesValidos++;
             }
         }
 
-        contVerticesAtingidos += this.bfsCont(v);
-        if (contVerticesAtingidos == contBfs) {
-            a.setFlagStatus(' ');
-            return false;
+        PriorityQueue<Vertice> fila = new PriorityQueue<>();
+        HashMap<String, Vertice> verticesDescobertos = new HashMap<>();
+        verticesDescobertos.put(v.getId(), v);
+        fila.add(v);
+        while (!fila.isEmpty()) {
+            Vertice v1 = fila.poll();
+            ArrayList<Aresta> listaArestas = v1.getListaArestas();
+            for (Aresta aresta : listaArestas) {
+                if (aresta.getFlagBusca() != 'e' && aresta.getFlagBusca() != 'p' && aresta.getFlag() != 'e') {
+                    if (!verticesDescobertos.containsKey(aresta.getVerticeAdjacente(v1).getId())) {
+                        fila.add(aresta.getVerticeAdjacente(v1));
+                        verticesDescobertos.put(aresta.getVerticeAdjacente(v1).getId(), v1);
+                        aresta.setFlagBusca('e');
+                    } 
+                }
+            }
+        }
 
+        if (verticesDescobertos.size() == qtdVerticesValidos) {
+            this.zerarFlagsBusca();
+            return false;
         } else {
+            this.zerarFlagsBusca();
             return true;
         }
 
     }
 
-    private int bfsCont(Vertice v) {
-        this.zerarFlagsBfsCont();
-        HashMap<String, Vertice> verticesEncontrado = new HashMap<>();
-        verticesEncontrado.put(v.getId(), v);
-        verticesEncontrado = this.percorrerBfs(v, verticesEncontrado);
-        return verticesEncontrado.size();
+    private void zerarFlagsBusca() {
+
+        for (Vertice vertice : listaAdj) {
+            ArrayList<Aresta> liAr = vertice.getListaArestas();
+            for (Aresta aresta : liAr) {
+                aresta.setFlagBusca(' ');
+            }
+
+        }
     }
 
-    private HashMap<String, Vertice> percorrerBfs(Vertice v, HashMap<String, Vertice> verticesEncontrado) {
+    private List<Aresta> getArestasValidas(Vertice v) {
+        ArrayList<Aresta> arestasValidas = new ArrayList<>();
         ArrayList<Aresta> arestas = v.getListaArestas();
-        for (Aresta a : arestas) {
-            if (a.getFlagStatus() != 'e') {
-                if ((a.getFlagStatus() == 'p' && a.getFlagBfsCont() > 1) || 
-                a.getFlagStatus() != 'p' && a.getFlagBfsCont() >= 1) {
-                    if (!verticesEncontrado.containsKey(a.getVerticeAdj().getId())) {
-                        verticesEncontrado.put(v.getId(), v);
-                        a.setFlagBfsCont(a.getFlagBfsCont() - 1);
-                        percorrerBfs(a.getVerticeAdj(), v, verticesEncontrado);
-                    } else {
-                        a.setFlagBfsCont(a.getFlagBfsCont() - 1);
-                        percorrerBfs(a.getVerticeAdj(), v, verticesEncontrado);
-                    }
-                }
+        for (Aresta aresta : arestas) {
+            if (aresta.getFlag() != 'e') {
+                arestasValidas.add(aresta);
             }
         }
-        return verticesEncontrado;
+
+        return arestasValidas;
     }
-
-    private HashMap<String, Vertice> percorrerBfs(Vertice v, Vertice vPai,
-            HashMap<String, Vertice> verticesEncontrado) {
-
-        ArrayList<Aresta> arestas = v.getListaArestas();
-        for (Aresta a : arestas) {
-            if (a.getVerticeAdj().equals(vPai)) {
-                a.setFlagBfsCont(a.getFlagBfsCont() - 1);
-            }
-        }
-        for (Aresta a : arestas) {
-            if (a.getFlagStatus() != 'e') {
-                if ((a.getFlagStatus() == 'p' && a.getFlagBfsCont() > 1) || 
-                a.getFlagStatus() != 'p' && a.getFlagBfsCont() >= 1) {
-                    if (!verticesEncontrado.containsKey(a.getVerticeAdj().getId())) {
-                        verticesEncontrado.put(a.getVerticeAdj().getId(), a.getVerticeAdj());
-                        a.setFlagBfsCont(a.getFlagBfsCont() - 1);
-                        return percorrerBfs(a.getVerticeAdj(), v, verticesEncontrado);
-                    } else {
-                        a.setFlagBfsCont(a.getFlagBfsCont() - 1);
-                        return percorrerBfs(a.getVerticeAdj(), v, verticesEncontrado);
-                    }
-                }
-            }
-        }
-        return verticesEncontrado;
-
-    }
-
-    private void zerarFlagsBfsCont() {
-        for (Vertice v : listaAdj) {
-            ArrayList<Aresta> li = v.getListaArestas();
-            for (Aresta aresta : li) {
-                if (aresta.getFlagCaminhoVirtual() > 0) {
-                    aresta.setFlagBfsCont(aresta.getFlagCaminhoVirtual() + 1);
-                } else {
-                    aresta.setFlagCaminhoVirtual(1);
-                }
-                if (aresta.getFlagStatus() == 'e') {
-                    aresta.setFlagBfsCont(-1);
-                }
-            }
-
-        }
-    }
-
-    private void removeVirtual(String id, String id2, int custo) {
-        for (Vertice v : listaAdj) {
-            if (v.getId().equals(id)) {
-                ArrayList<Aresta> a = v.getListaArestas();
-                for (Aresta ar : a) {
-                    if (ar.getVerticeAdj().equals(id2) && ar.getCusto() == custo) {
-                        if (ar.getFlagCaminhoVirtual() > 0) {
-                            ar.setFlagCaminhoVirtual(ar.getFlagCaminhoVirtual() - 1);
-                        } else {
-                            ar.setFlagStatus('e');
-                        }
-                    }
-                }
-
-            } else if (v.getId().equals(id2)) {
-                ArrayList<Aresta> a = v.getListaArestas();
-                for (Aresta ar : a) {
-                    if (ar.getVerticeAdj().equals(id) && ar.getCusto() == custo) {
-                        if (ar.getFlagCaminhoVirtual() > 0) {
-                            ar.setFlagCaminhoVirtual(ar.getFlagCaminhoVirtual() - 1);
-                        } else {
-                            ar.setFlagStatus('e');
-                        }
-                    }
-                }
-
-            }
-        }
-    }
-
-    public void zerarFlags() {
-
-        for (Vertice v : listaAdj) {
-            v.setFlag(' ');
-            v.setD(Integer.MAX_VALUE);
-            v.setPi("nill");
-            ArrayList<Aresta> li = v.getListaArestas();
-            for (Aresta a : li) {
-                a.setFlagCaminhoVirtual(0);
-                a.setFlagStatus(' ');
-            }
-        }
-    }
-
 }
