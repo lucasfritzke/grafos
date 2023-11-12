@@ -16,7 +16,7 @@ public class CarteiroChines {
     public String calcularRota(String id) {
         
         grafo.zerarFlags();
-        System.out.println(grafo.toString());
+       // System.out.println(grafo.toString());
 
         str.append("---------------------- EXECUÇÃO ALGORITMO CARTEIRO CHINES ----------------------");
         str.append("\n");
@@ -36,13 +36,14 @@ public class CarteiroChines {
             this.criarCaminhosArtificiais(caminhos, vetoresRotaDijkstras);
 
             int custo = grafo.getCustoTotal();
-            str.append("CICLO EULERIANO: \n");
+            str.append("\n\n------------------------------- CICLO EULERIANO: -------------------------------");
+            str.append("\n \n");
             String cicloEuleriano = grafo.gerarCicloEuleriano(id);;
-            System.out.println(grafo.toString());
-            System.out.println(custo);
+            //System.out.println(grafo.toString());
+            //System.out.println(custo);
 
-            str.append(cicloEuleriano+"\n");
-            str.append("Custo: "+ custo);
+            str.append(cicloEuleriano+"\n \n");
+            str.append("CUSTO TOTAL: "+ custo);
 
         } else {
             str.append("grafo é euleriano");
@@ -83,10 +84,12 @@ public class CarteiroChines {
 
     private void criarCaminhosArtificiais(List<CelulaMatrizCusto> caminhos,
         List<VetorRotasDijkstra> vetoresRotaDijkstras) {
-        
+        int cont=1;
         for (CelulaMatrizCusto caminho : caminhos) {
             String idVerticeInicial = caminho.getIdVertice();
             String idVeStringFinal = caminho.getIdVerticeAdj();
+            str.append("Caminho "+ cont+ ": Vertice "+idVerticeInicial+" ... "+idVeStringFinal+" Custo: "+caminho.getCusto()+"\n");
+            cont++;
             for(VetorRotasDijkstra vetor : vetoresRotaDijkstras){
                 if(vetor.getId().equals(idVerticeInicial)){
                     this.duplicarArestas(vetor, caminho.getCusto(),idVerticeInicial, idVeStringFinal);                    
