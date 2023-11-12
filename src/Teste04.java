@@ -1,3 +1,4 @@
+import grafo.CarteiroChines;
 import grafo.Grafo;
 
 public class Teste04 {
@@ -44,7 +45,8 @@ public class Teste04 {
         gr.addAresta("12", "6", 3);
         gr.addAresta("1", "10", 19);
 
-        System.out.println(gr.calcularCarteiroChines("1"));
+        CarteiroChines cc = new CarteiroChines(gr);
+        System.out.println(cc.calcularRota("1"));
 
 
     }

@@ -10,6 +10,7 @@ public class Vertice implements Comparable<Vertice>{
     // atributos para Dijkstra
     private int d;
     private String pi;
+    private boolean excluido = false; // para fleury
 
     public Vertice(String id) {
         this.id = id;
@@ -33,6 +34,9 @@ public class Vertice implements Comparable<Vertice>{
 
         for (Aresta a : listaArestas) {
             str += "| "+ a.getVerticeAdj().getId() + " | "+ a.getCusto()+" |->";
+            if(a.getFlagCaminhoVirtual() == 1){
+                str += "| "+ a.getVerticeAdj().getId() + " | "+ a.getCusto()+" |->";
+            }
         }
 
         return str;
@@ -66,12 +70,31 @@ public class Vertice implements Comparable<Vertice>{
     public void setPi(String pi) {
         this.pi = pi;
     }
-    public void zerarFlags() {
-
-        this.setFlag(' ');
-        for (Aresta a : listaArestas) {
-            a.setFlag(' ');
+    
+    public void addCaminhoVirtual (String idAdj, int custo){
+        for (Aresta aresta : listaArestas) {
+            if(aresta.getVerticeAdj().getId().equals(idAdj) && aresta.getCusto() == custo){
+                aresta.setFlagCaminhoVirtual(aresta.getFlagCaminhoVirtual()+1);
+            }
         }
-    }    
+    }
+    public void duplicarAresta(String v1, int custo) {
+        for (Aresta a : listaArestas) {
+            if(a.getVerticeAdj().getId().equals(v1) && a.getCusto() == custo){
+                a.setFlagCaminhoVirtual(1);
+            }
+        }
+    }
+    public void setListaArestas(ArrayList<Aresta> listaArestas) {
+        this.listaArestas = listaArestas;
+    }
+    public boolean isExcluido() {
+        return excluido;
+    }
+    public void setExcluido(boolean excluido) {
+        this.excluido = excluido;
+    }
+
+    
     
 }

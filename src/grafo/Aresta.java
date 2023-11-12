@@ -4,8 +4,16 @@ public class Aresta implements Comparable<Aresta> {
 
     private int custo;
     private Vertice verticeAdj;
-    private char flag= ' ';
-
+    private int flagCaminhoVirtual=0;
+    private char flagStatus =' ';
+    
+    
+    public int getFlagCaminhoVirtual() {
+        return flagCaminhoVirtual;
+    }
+    public void setFlagCaminhoVirtual(int flagCaminhoVirtual) {
+        this.flagCaminhoVirtual = flagCaminhoVirtual;
+    }
     public Aresta() {
     }
     public Aresta(int custo, Vertice verticeAdj) {
@@ -30,10 +38,16 @@ public class Aresta implements Comparable<Aresta> {
         return this.verticeAdj.getId().compareTo(o.getVerticeAdj().getId());
 
     }
-    public char getFlag() {
-        return flag;
+    @Override
+    public String toString() {
+        return  "| "+this.getVerticeAdj().getId() + " | "+ this.getCusto() +" |";
+        
     }
-    public void setFlag(char flag) {
-        this.flag = flag;
+
+    public char getFlagStatus() {
+        return flagStatus;
+    }
+    public void setFlagStatus(char status) {
+        this.flagStatus = status;
     }
 }
