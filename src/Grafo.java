@@ -306,10 +306,42 @@ public class Grafo {
         return arestasValidas;
     }
 
-    public boolean  isConexo(){
-        int qtdVertice = this.listaAdj.size();
+    public boolean isConexo(){
+        int qtdVerticesValidos = this.listaAdj.size();
+        
+        Vertice v = listaAdj.get(0);
+        Aresta a = v.getListaArestas().isEmpty() == true ? null : v.getListaArestas().get(0) ;
 
+        if(a == null){
+            return false;
+        }
+
+        this.zerarFlagsBusca();
+        a.setFlagBusca('p');
+
+        PriorityQueue<Vertice> fila = new PriorityQueue<>();
+        HashMap<String, Vertice> verticesDescobertos = new HashMap<>();
+        verticesDescobertos.put(v.getId(), v);
+        fila.add(v);
+        while (!fila.isEmpty()) {
+            Vertice v1 = fila.poll();
+            ArrayList<Aresta> listaArestas = v1.getListaArestas();
+            for (Aresta aresta : listaArestas) {
+                if (aresta.getFlagBusca() != 'e' && aresta.getFlagBusca() != 'p' && aresta.getFlag() != 'e') {
+                    if (!verticesDescobertos.containsKey(aresta.getVerticeAdjacente(v1).getId())) {
+                        fila.add(aresta.getVerticeAdjacente(v1));
+                        verticesDescobertos.put(aresta.getVerticeAdjacente(v1).getId(), v1);
+                        aresta.setFlagBusca('e');
+                    } 
+                }
+            }
+        }
+
+        if (verticesDescobertos.size() == qtdVerticesValidos) {
+            this.zerarFlagsBusca();
+            return true;
+        } 
+        this.zerarFlagsBusca();
         return false;
-
     }
 }

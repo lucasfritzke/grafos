@@ -17,41 +17,51 @@ public class CarteiroChines {
         
         grafo.zerarFlags();
        // System.out.println(grafo.toString());
-
-        str.append("---------------------- EXECUÇÃO ALGORITMO CARTEIRO CHINES ----------------------");
-        str.append("\n");
-        str.append("\n");
-        List<Vertice> listaVerticesImpares = grafo.getVerticesGrauImpar();
-        if (!listaVerticesImpares.isEmpty()) {
-            str.append(this.verticesImparToString(listaVerticesImpares));
-            List<VetorRotasDijkstra> vetoresRotaDijkstras;
-
-            vetoresRotaDijkstras = this.calcularCaminhoMinimo(listaVerticesImpares);
-            MatrizCusto matrizCusto = new MatrizCusto(vetoresRotaDijkstras, listaVerticesImpares);
-            str.append("------------------------------- MATRIZ DE CUSTO -------------------------------");
+        if(grafo.isConexo()){
+        
+            str.append("---------------------- EXECUÇÃO ALGORITMO CARTEIRO CHINES ----------------------");
             str.append("\n");
             str.append("\n");
-            str.append(matrizCusto.toString() + "\n");
-            List<CelulaMatrizCusto> caminhos = matrizCusto.getVerticesMenorCaminho();
-            this.criarCaminhosArtificiais(caminhos, vetoresRotaDijkstras);
+            List<Vertice> listaVerticesImpares = grafo.getVerticesGrauImpar();
+            if (!listaVerticesImpares.isEmpty()) {
+                str.append(this.verticesImparToString(listaVerticesImpares));
+                List<VetorRotasDijkstra> vetoresRotaDijkstras;
 
-            int custo = grafo.getCustoTotal();
-            str.append("\n\n------------------------------- CICLO EULERIANO: -------------------------------");
-            str.append("\n \n");
-            String cicloEuleriano = grafo.gerarCicloEuleriano(id);;
-            //System.out.println(grafo.toString());
-            //System.out.println(custo);
+                vetoresRotaDijkstras = this.calcularCaminhoMinimo(listaVerticesImpares);
+                MatrizCusto matrizCusto = new MatrizCusto(vetoresRotaDijkstras, listaVerticesImpares);
+                str.append("------------------------------- MATRIZ DE CUSTO -------------------------------");
+                str.append("\n");
+                str.append("\n");
+                str.append(matrizCusto.toString() + "\n");
+                List<CelulaMatrizCusto> caminhos = matrizCusto.getVerticesMenorCaminho();
+                this.criarCaminhosArtificiais(caminhos, vetoresRotaDijkstras);
 
-            str.append(cicloEuleriano+"\n \n");
-            str.append("CUSTO TOTAL: "+ custo);
+                int custo = grafo.getCustoTotal();
+                str.append("\n\n------------------------------- CICLO EULERIANO: -------------------------------");
+                str.append("\n \n");
+                String cicloEuleriano = grafo.gerarCicloEuleriano(id);;
+                //System.out.println(grafo.toString());
+                //System.out.println(custo);
 
-        } else {
+                str.append(cicloEuleriano+"\n \n");
+                str.append("CUSTO TOTAL: "+ custo);
 
+            } else {
 
-            
-            str.append("grafo é euleriano");
+                int custo = grafo.getCustoTotal();
+                str.append("\n\n------------------------------- CICLO EULERIANO: -------------------------------");
+                str.append("\n \n");
+                String cicloEuleriano = grafo.gerarCicloEuleriano(id);;
+                
+                str.append("grafo é por padrão euleriano");
+                
+                str.append(cicloEuleriano+"\n \n");
+                str.append("CUSTO TOTAL: "+ custo);
+
+            }
+        }else{
+            str.append("Grafo não é conexo");
         }
-
         return str.toString();
     }
 
@@ -67,7 +77,6 @@ public class CarteiroChines {
             vetoresRotaDijkstras.add(vrd);
             str.append("Dijkstra Vertice: " + vrd.getId() + "\n");
             str.append(vrd.toString() + "\n\n");
-
         }
         return vetoresRotaDijkstras;
     }

@@ -73,6 +73,20 @@ public class VetorRotasDijkstra {
             str.append(String.format("%-6s", c.getValue().pai));
         }
 
+        str.append("\n");
+        str.append(String.format("%-3s",  "q"));
+        for(int i = 0; i < matriz.entrySet().size(); i++){
+            str.append(String.format("%-6s", "-"));
+        }
+
+        str.append("\n");
+        str.append(String.format("%-3s",  "s"));
+        for(int i = 0; i < matriz.entrySet().size(); i++){
+            str.append(String.format("%-6s", "x"));
+        }
+        str.append("\n");
+
+
         return str.toString();
         
     }
