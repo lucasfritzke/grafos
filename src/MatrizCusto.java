@@ -57,7 +57,7 @@ public class MatrizCusto {
                         vertices.remove();
                     }
                 }
-                //System.out.println(this.toString());
+                System.out.println(this.toString());
             }
             
 

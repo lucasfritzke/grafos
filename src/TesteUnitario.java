@@ -1,3 +1,5 @@
+// LUCAS FRITZKE E GUILHERME BACK
+
 public class TesteUnitario {
 
     public static void main(String[] args) {
@@ -35,7 +37,7 @@ public class TesteUnitario {
 
         CarteiroChines cc = new CarteiroChines(grafo);
         System.out.println(cc.calcularRota("A"));
-        System.out.println(cc.calcularRota("I"));
+        //System.out.println(cc.calcularRota("I"));
         
 
 

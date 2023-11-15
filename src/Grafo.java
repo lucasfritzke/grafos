@@ -305,4 +305,11 @@ public class Grafo {
 
         return arestasValidas;
     }
+
+    public boolean  isConexo(){
+        int qtdVertice = this.listaAdj.size();
+
+        return false;
+
+    }
 }

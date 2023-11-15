@@ -46,6 +46,9 @@ public class CarteiroChines {
             str.append("CUSTO TOTAL: "+ custo);
 
         } else {
+
+
+            
             str.append("grafo é euleriano");
         }
 
