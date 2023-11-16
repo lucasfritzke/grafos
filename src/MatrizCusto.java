@@ -1,4 +1,4 @@
-// LUCAS FRITZKE
+// LUCAS FRITZKE E GUILHERME BACK
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -57,7 +57,7 @@ public class MatrizCusto {
                         vertices.remove();
                     }
                 }
-                System.out.println(this.toString());
+                // System.out.println(this.toString());
             }
             
 

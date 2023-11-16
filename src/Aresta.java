@@ -1,4 +1,4 @@
-// LUCAS FRITZKE
+// LUCAS FRITZKE E GUILHERME BACK
 
 public class Aresta implements Comparable<Aresta> {
 

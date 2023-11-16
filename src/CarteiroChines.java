@@ -1,4 +1,4 @@
-// LUCAS FRITZKE
+// LUCAS FRITZKE E GUILHERME BACK
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class CarteiroChines {
                 //System.out.println(custo);
 
                 str.append(cicloEuleriano+"\n \n");
-                str.append("CUSTO TOTAL: "+ custo);
+                str.append("CUSTO TOTAL: "+ custo+"\n");
 
             } else {
 
@@ -56,7 +56,7 @@ public class CarteiroChines {
                 str.append("grafo é por padrão euleriano");
                 
                 str.append(cicloEuleriano+"\n \n");
-                str.append("CUSTO TOTAL: "+ custo);
+                str.append("CUSTO TOTAL: "+ custo+"\n");
 
             }
         }else{
@@ -100,28 +100,30 @@ public class CarteiroChines {
         for (CelulaMatrizCusto caminho : caminhos) {
             String idVerticeInicial = caminho.getIdVertice();
             String idVeStringFinal = caminho.getIdVerticeAdj();
-            str.append("Caminho "+ cont+ ": Vertice "+idVerticeInicial+" ... "+idVeStringFinal+" Custo: "+caminho.getCusto()+"\n");
+            str.append("Caminho "+ cont+ "-> entre vertices");
             cont++;
             for(VetorRotasDijkstra vetor : vetoresRotaDijkstras){
                 if(vetor.getId().equals(idVerticeInicial)){
-                    this.duplicarArestas(vetor, caminho.getCusto(),idVerticeInicial, idVeStringFinal);                    
+                    String liVertices = "";
+                   String v = this.duplicarArestas(vetor, caminho.getCusto(),liVertices, idVeStringFinal); 
+                   str.append(" "+v);                   
                 }
             }
+            str.append("custo: "+caminho.getCusto()+"\n");
         }
     }
 
-    public void duplicarArestas(VetorRotasDijkstra vetor, int custo, String idVerticeInicial, String idVeStringFinal){
-        int custoVerticeFinal = vetor.getDistancia(idVeStringFinal);
-        String pai = vetor.getPai(idVeStringFinal);
+    public String duplicarArestas(VetorRotasDijkstra vetor, int custo, String str, String idVertice){
+        str += idVertice+" ";
+        int custoVerticeFinal = vetor.getDistancia(idVertice);
+        String pai = vetor.getPai(idVertice);
         if(pai.equals("nill")){
-            return;
+            return str;
         }
         int custoPai = vetor.getDistancia(pai);
-        grafo.duplicarArestas(idVeStringFinal, pai, (custoVerticeFinal-custoPai));
+        grafo.duplicarArestas(idVertice, pai, (custoVerticeFinal-custoPai));
         custo = custo - custoPai;
-        if(custo != 0){
-            duplicarArestas(vetor, custo, idVerticeInicial, pai);
-        }
+        return duplicarArestas(vetor, custo, str, pai);
     }
 
 

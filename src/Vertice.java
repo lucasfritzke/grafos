@@ -1,4 +1,4 @@
-// LUCAS FRITZKE
+// LUCAS FRITZKE E GUILHERME BACK
 
 import java.util.ArrayList;
 
