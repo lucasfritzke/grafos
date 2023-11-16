@@ -60,7 +60,6 @@ public class Aresta implements Comparable<Aresta> {
 
     @Override
     public int compareTo(Aresta o) {
-        // TODO Auto-generated method stub
         Vertice[] vo = o.getVertices();
         if(this.vertices[0].getId().equals(vo[0].getId()) &&
             this.vertices[1].getId().equals(vo[1].getId()) && 
